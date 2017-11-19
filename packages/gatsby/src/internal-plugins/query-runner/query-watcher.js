@@ -10,6 +10,7 @@
 
 const _ = require(`lodash`)
 const chokidar = require(`chokidar`)
+const async = require(`async`)
 
 const { store } = require(`../../redux/`)
 const { boundActionCreators } = require(`../../redux/actions`)
@@ -57,7 +58,19 @@ const runQueriesForComponent = componentPath => {
     pages.map(p => p.path || p.id)
   )
   const component = store.getState().components[componentPath]
-  return Promise.all(pages.map(p => queryRunner(p, component)))
+  return new Promise((resolve) => {
+    async.mapLimit(
+      pages,
+      4,
+      (page, callback) => {
+        queryRunner(page, component)
+          .then(result => callback(null, result))
+      },
+      (error, result) => {
+        resolve(result)
+      }
+    )
+  })
 }
 
 const getPagesForComponent = componentPath => {
