@@ -8,7 +8,7 @@ const getCache = require(`./get-cache`)
 const apiList = require(`./api-node-docs`)
 const createNodeId = require(`./create-node-id`)
 const createContentDigest = require(`./create-content-digest`)
-const { withPrefixPath, withAssetPath } = require(`./path`)
+const { withPathPrefix, withAssetPrefix } = require(`./path`)
 
 // Bind action creators per plugin so we can auto-add
 // metadata to actions they create.
@@ -123,8 +123,8 @@ const runAPI = (plugin, api, args) => {
         createNodeId: namespacedCreateNodeId,
         createContentDigest,
         tracing,
-        withPrefixPath: withPrefixPath(pathPrefix),
-        withAssetPath: withAssetPath(assetPrefix),
+        withPathPrefix: withPathPrefix(pathPrefix),
+        withAssetPrefix: withAssetPrefix(assetPrefix),
       },
       plugin.pluginOptions,
     ]
