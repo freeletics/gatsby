@@ -291,7 +291,11 @@ module.exports = ({ type, getNodeAndSavePathDependency, ...rest }) => {
     return {}
   }
 
-  const { cache, pathPrefix } = rest
+  const {
+    cache,
+    pathPrefix,
+    withAssetPrefix = (...paths) => path.join(pathPrefix, ...paths),
+  } = rest
 
   const nodeOptions = {
     type,
@@ -357,7 +361,7 @@ module.exports = ({ type, getNodeAndSavePathDependency, ...rest }) => {
         return {
           width: dimensions.width,
           height: dimensions.height,
-          src: `${pathPrefix}/static/${imageName}`,
+          src: withAssetPrefix(`static`, imageName),
         }
       },
     },
