@@ -120,11 +120,6 @@ const healOptions = (args, defaultArgs) => {
     options.maxHeight = parseInt(options.maxHeight, 10)
   }
 
-  if (!options.withAssetPrefix) {
-    options.withAssetPrefix = (...paths) =>
-      path.join(options.pathPrefix, ...paths)
-  }
-
   return options
 }
 
@@ -462,13 +457,13 @@ function queueImageResizing({ file, args = {}, reporter, ...rest }) {
   queueJob(job, reporter)
 
   // encode the file name for URL
-  const encodedImgSrc = `/${encodeURIComponent(file.name)}.${fileExtension}`
+  const encodedImgSrc = `${encodeURIComponent(file.name)}.${fileExtension}`
 
   // Prefix the image src.
-  const digestDirPrefix = `${file.internal.contentDigest}/${argsDigestShort}`
   const prefixedSrc = options.withAssetPrefix(
-    `/static`,
-    digestDirPrefix,
+    `static`,
+    file.internal.contentDigest,
+    argsDigestShort,
     encodedImgSrc
   )
 
