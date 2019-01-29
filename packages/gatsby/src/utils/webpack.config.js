@@ -133,10 +133,14 @@ module.exports = async (
         return {
           filename: `[name]-[contenthash].js`,
           chunkFilename: `[name]-[contenthash].js`,
-          path: directoryPath(`public`),
+          path: directoryPath(
+            path.join(`public`, store.getState().config.assetPath)
+          ),
           publicPath: program.prefixPaths
-            ? `${store.getState().config.pathPrefix}/`
-            : `/`,
+            ? `${store.getState().config.pathPrefix}${
+                store.getState().config.assetPath
+              }`
+            : store.getState().config.assetPath,
         }
       default:
         throw new Error(`The state requested ${stage} doesn't exist.`)

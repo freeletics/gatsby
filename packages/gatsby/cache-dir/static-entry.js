@@ -15,11 +15,11 @@ const pagesObjectMap = new Map()
 pages.forEach(p => pagesObjectMap.set(p.path, p))
 
 const stats = JSON.parse(
-  fs.readFileSync(`${process.cwd()}/public/webpack.stats.json`, `utf-8`)
+  fs.readFileSync(join(process.cwd(), `public`, `webpack.stats.json`), `utf-8`)
 )
 
 const chunkMapping = JSON.parse(
-  fs.readFileSync(`${process.cwd()}/public/chunk-map.json`, `utf-8`)
+  fs.readFileSync(join(process.cwd(), `public`, `chunk-map.json`), `utf-8`)
 )
 
 // const testRequireError = require("./test-require-error")
@@ -270,7 +270,7 @@ export default (pagePath, callback) => {
           as="script"
           rel={script.rel}
           key={script.name}
-          href={`${__PATH_PREFIX__}/${script.name}`}
+          href={`${__PATH_PREFIX__}${__ASSET_PATH__}/${script.name}`}
         />
       )
     })
@@ -297,22 +297,23 @@ export default (pagePath, callback) => {
       // Add <link>s for styles that should be prefetched
       // otherwise, inline as a <style> tag
 
+      // TODO: [ASSET_PATH] check if prefetch works correctly
       if (style.rel === `prefetch`) {
         headComponents.push(
           <link
             as="style"
             rel={style.rel}
             key={style.name}
-            href={`${__PATH_PREFIX__}/${style.name}`}
+            href={`${__PATH_PREFIX__}${__ASSET_PATH__}/${style.name}`}
           />
         )
       } else {
         headComponents.unshift(
           <style
-            data-href={`${__PATH_PREFIX__}/${style.name}`}
+            data-href={`${__PATH_PREFIX__}${__ASSET_PATH__}/${style.name}`}
             dangerouslySetInnerHTML={{
               __html: fs.readFileSync(
-                join(process.cwd(), `public`, style.name),
+                join(process.cwd(), `public`, __ASSET_PATH__, style.name),
                 `utf-8`
               ),
             }}
@@ -358,10 +359,9 @@ export default (pagePath, callback) => {
   const bodyScripts = scripts
     .filter(s => s.rel !== `prefetch`)
     .map(s => {
-      const scriptPath = `${__PATH_PREFIX__}/${JSON.stringify(s.name).slice(
-        1,
-        -1
-      )}`
+      const scriptPath = `${__PATH_PREFIX__}${__ASSET_PATH__}/${JSON.stringify(
+        s.name
+      ).slice(1, -1)}`
       return <script key={scriptPath} src={scriptPath} async />
     })
 
