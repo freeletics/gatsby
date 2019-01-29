@@ -4,6 +4,7 @@
   },
   "globals": {
     "__PATH_PREFIX__": false,
+    "__ASSET_PATH__": false,
     "___emitter": false
   }
 }

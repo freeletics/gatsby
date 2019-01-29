@@ -182,6 +182,7 @@ module.exports = async (
         __PATH_PREFIX__: JSON.stringify(
           program.prefixPaths ? store.getState().config.pathPrefix : ``
         ),
+        __ASSET_PATH__: JSON.stringify(store.getState().config.assetPath),
       }),
     ]
 
