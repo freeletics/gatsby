@@ -139,8 +139,8 @@ module.exports = async (
           publicPath: program.prefixPaths
             ? `${store.getState().config.pathPrefix}${
                 store.getState().config.assetPath
-              }`
-            : store.getState().config.assetPath,
+              }/`
+            : `${store.getState().config.assetPath}/`,
         }
       default:
         throw new Error(`The state requested ${stage} doesn't exist.`)
