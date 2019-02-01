@@ -185,6 +185,7 @@ export default (pagePath, callback) => {
     setPostBodyComponents,
     setBodyProps,
     pathname: pagePath,
+    assetPath: __ASSET_PATH__,
     pathPrefix: __PATH_PREFIX__,
   })
 
@@ -257,6 +258,7 @@ export default (pagePath, callback) => {
     bodyHtml,
     scripts,
     styles,
+    assetPath: __ASSET_PATH__,
     pathPrefix: __PATH_PREFIX__,
   })
 
@@ -375,6 +377,7 @@ export default (pagePath, callback) => {
     getPostBodyComponents,
     replacePostBodyComponents,
     pathname: pagePath,
+    assetPath: __ASSET_PATH__,
     pathPrefix: __PATH_PREFIX__,
   })
 

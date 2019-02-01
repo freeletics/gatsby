@@ -403,6 +403,7 @@ function queueImageResizing({ file, args = {}, reporter }) {
   const dirPath = path.join(
     process.cwd(),
     `public`,
+    options.assetPath,
     `static`,
     file.internal.contentDigest,
     argsDigestShort
@@ -461,8 +462,9 @@ function queueImageResizing({ file, args = {}, reporter }) {
 
   // Prefix the image src.
   const digestDirPrefix = `${file.internal.contentDigest}/${argsDigestShort}`
-  const prefixedSrc =
-    options.pathPrefix + `/static/${digestDirPrefix}` + encodedImgSrc
+  const prefixedSrc = `${options.pathPrefix}${
+    options.assetPath
+  }/static/${digestDirPrefix}${encodedImgSrc}`
 
   return {
     src: prefixedSrc,

@@ -2,10 +2,11 @@ import React from "react"
 import { withPrefix } from "gatsby"
 import { defaultIcons } from "./common.js"
 
-exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
+exports.onRenderBody = ({ setHeadComponents, assetPath }, pluginOptions) => {
   // We use this to build a final array to pass as the argument to setHeadComponents at the end of onRenderBody.
   let headComponents = []
 
+  const assetPublicPath = path => withPrefix(`${assetPath}/${path}`)
   const icons = pluginOptions.icons || defaultIcons
   const legacy =
     typeof pluginOptions.legacy !== `undefined` ? pluginOptions.legacy : true
@@ -19,7 +20,7 @@ exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
         <link
           key={`gatsby-plugin-manifest-icon-link`}
           rel="shortcut icon"
-          href={withPrefix(favicon)}
+          href={assetPublicPath(favicon)}
         />
       )
     }
@@ -30,7 +31,7 @@ exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
     <link
       key={`gatsby-plugin-manifest-link`}
       rel="manifest"
-      href={withPrefix(`/manifest.webmanifest`)}
+      href={assetPublicPath(`/manifest.webmanifest`)}
     />
   )
   // The user has an option to opt out of the theme_color meta tag being inserted into the head.
@@ -58,7 +59,7 @@ exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
         key={`gatsby-plugin-manifest-apple-touch-icon-${icon.sizes}`}
         rel="apple-touch-icon"
         sizes={icon.sizes}
-        href={withPrefix(`${icon.src}`)}
+        href={assetPublicPath(`${icon.src}`)}
       />
     ))
 

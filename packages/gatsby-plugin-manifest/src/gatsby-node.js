@@ -33,6 +33,12 @@ exports.onPostBootstrap = (args, pluginOptions) =>
       manifest.icons = defaultIcons
     }
 
+    // Prepend assetPath to icon src
+    manifest.icons = manifest.icons.map(icon => {
+      icon.src = path.join(args.assetPath, icon.src)
+      return icon
+    })
+
     // Determine destination path for icons.
     const iconPath = path.join(`public`, path.dirname(manifest.icons[0].src))
 
@@ -42,7 +48,7 @@ exports.onPostBootstrap = (args, pluginOptions) =>
     }
 
     fs.writeFileSync(
-      path.join(`public`, `manifest.webmanifest`),
+      path.join(`public`, args.assetPath, `manifest.webmanifest`),
       JSON.stringify(manifest)
     )
 

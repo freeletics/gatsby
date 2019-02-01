@@ -84,6 +84,8 @@ const runAPI = (plugin, api, args) => {
       { ...args, parentSpan: pluginSpan }
     )
 
+    const { assetPath } = store.getState().config
+
     if (store.getState().program.prefixPaths) {
       pathPrefix = store.getState().config.pathPrefix
     }
@@ -97,6 +99,7 @@ const runAPI = (plugin, api, args) => {
     const apiCallArgs = [
       {
         ...args,
+        assetPath,
         pathPrefix,
         boundActionCreators: doubleBoundActionCreators,
         actions: doubleBoundActionCreators,
