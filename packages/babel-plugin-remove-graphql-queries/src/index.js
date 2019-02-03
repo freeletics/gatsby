@@ -120,7 +120,7 @@ function getGraphQLTag(path) {
   }
 }
 
-export default function({ types: t }) {
+export default function({ types: t }, { assetPath }) {
   return {
     visitor: {
       Program(path, state) {
@@ -134,7 +134,13 @@ export default function({ types: t }) {
             ) {
               const identifier = t.identifier(`staticQueryData`)
               const filename = state.file.opts.filename
-              const shortResultPath = `public/static/d/${this.queryHash}.json`
+              const shortResultPath = nodePath.join(
+                `public`,
+                assetPath,
+                `static`,
+                `d`,
+                `${this.queryHash}.json`
+              )
               const resultPath = nodePath.join(process.cwd(), shortResultPath)
               // Add query
               path2.parent.attributes.push(

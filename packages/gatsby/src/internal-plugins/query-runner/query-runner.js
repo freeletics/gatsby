@@ -25,7 +25,7 @@ type QueryJob = {
 
 // Run query
 module.exports = async (queryJob: QueryJob, component: Any) => {
-  const { schema, program } = store.getState()
+  const { schema, program, config } = store.getState()
 
   const graphql = (query, context) =>
     graphqlFunction(schema, query, context, context, context)
@@ -124,6 +124,7 @@ ${formatErrorDetails(errorDetails)}`)
     const resultPath = path.join(
       program.directory,
       `public`,
+      config.assetPath,
       `static`,
       `d`,
       modInt,

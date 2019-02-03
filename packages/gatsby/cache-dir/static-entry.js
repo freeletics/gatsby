@@ -114,11 +114,19 @@ export default (pagePath, callback) => {
 
   let dataAndContext = {}
   if (page.jsonName in dataPaths) {
-    const pathToJsonData = `../public/` + dataPaths[page.jsonName]
+    const pathToJsonData = join(
+      `..`,
+      `public`,
+      __ASSET_PATH__,
+      dataPaths[page.jsonName]
+    )
+
     try {
       dataAndContext = JSON.parse(
         fs.readFileSync(
-          `${process.cwd()}/public/static/d/${dataPaths[page.jsonName]}.json`
+          `${process.cwd()}/public${__ASSET_PATH__}/static/d/${
+            dataPaths[page.jsonName]
+          }.json`
         )
       )
     } catch (e) {
@@ -278,7 +286,7 @@ export default (pagePath, callback) => {
     })
 
   if (page.jsonName in dataPaths) {
-    const dataPath = `${__PATH_PREFIX__}/static/d/${
+    const dataPath = `${__PATH_PREFIX__}${__ASSET_PATH__}/static/d/${
       dataPaths[page.jsonName]
     }.json`
     headComponents.push(

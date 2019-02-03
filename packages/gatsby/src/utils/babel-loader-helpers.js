@@ -1,5 +1,6 @@
 const path = require(`path`)
 const _ = require(`lodash`)
+const { store } = require(`../redux`)
 
 const loadCachedConfig = () => {
   let pluginBabelConfig = {
@@ -29,9 +30,13 @@ const prepareOptions = (babel, resolve = require.resolve) => {
 
   // Required plugins/presets
   const requiredPlugins = [
-    babel.createConfigItem([resolve(`babel-plugin-remove-graphql-queries`)], {
-      type: `plugin`,
-    }),
+    babel.createConfigItem(
+      [
+        resolve(`babel-plugin-remove-graphql-queries`),
+        { assetPath: store.getState().config.assetPath },
+      ],
+      { type: `plugin` }
+    ),
   ]
   const requiredPresets = []
 
